@@ -15,16 +15,28 @@ app.use(express.static('public'));
 app.get("/:urls", function (request, response) {
   response.sendFile(__dirname + '/views/index.html');
   var url=request.params.urls;
-  mongo
+  mongodb.connect(mongourl,function(err,client)
+                  {
+    var db=client.db("fcc1");
+    var coll=db.collection("urls");
+   if(url.length==4)
+   {
+     coll.find({_id:url}).toArray(function(err,doc)
+                                  {
+       if(doc.length==0)
+       {
+         response.json({"message":"no entry in db"});
+         client.close()
+       }
+       response.json({"orignal url":doc[0].name,"short url":
+       
+     });
+   }
+    
+  });
   
-  if(url.length==4)
-  {
-    
-  }
-  else
-  {
-    
-  }
+  
+ 
 });
 
 // listen for requests :)

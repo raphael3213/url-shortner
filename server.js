@@ -21,7 +21,7 @@ app.get("/conv/(*)", function (request, response) {
    
   url=url.substr(6,url.length-1)
    console.log("original: " + url);
-  //var url=request.params.urls;
+  if(url.substr(0,7)!=='https//'||url.substr(0,6)!==
   mongodb.connect(mongourl,function(err,client)
                   {
     

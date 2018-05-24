@@ -32,9 +32,14 @@ app.get("/:urls", function (request, response) {
          client.close()
        }
        response.json({"orignal url":doc[0].name,"short url":"https://url-short12214.glitch.me/"+doc[0]._id})
-       
+       client.close()
      });
    }
+    
+    else
+    {
+      coll.find({name:url})
+    }
     
   });
   

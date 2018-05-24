@@ -38,7 +38,17 @@ app.get("/:urls", function (request, response) {
     
     else
     {
-      coll.find({name:url})
+      coll.find({_name:url}).toArray(function(err,doc)
+                                  {
+       if(err) console.log(err);
+       if(doc.length==0)
+       {
+         coll.insert(
+         client.close()
+       }
+       response.json({"orignal url":doc[0].name,"short url":"https://url-short12214.glitch.me/"+doc[0]._id})
+       client.close()
+     });
     }
     
   });

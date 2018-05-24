@@ -10,10 +10,11 @@ var arr=[];
 
 // http://expressjs.com/en/starter/static-files.html
 app.use(express.static('public'));
+app.get("/", function (request, response) {
+response.sendFile(__dirname + '/views/index.html');})
 
-
-app.get("/:urls", function (request, response) {
-  response.sendFile(__dirname + '/views/index.html');
+app.get("/conv/:urls", function (request, response) {
+  //response.sendFile(__dirname + '/views/index.html');
   var url=request.params.urls;
   mongodb.connect(mongourl,function(err,client)
                   {
@@ -21,23 +22,8 @@ app.get("/:urls", function (request, response) {
     if(err) console.log(err);
     var datab=client.db("fcc1");
     var coll=datab.collection("urls");
-   if(url.length==4)
-   {
-     coll.find({_id:url}).toArray(function(err,doc)
-                                  {
-       if(err) console.log(err);
-       if(doc.length==0)
-       {
-         response.json({"message":"no entry in db"});
-         client.close()
-       }
-       response.json({"orignal url":doc[0].name,"short url":"https://url-short12214.glitch.me/"+doc[0]._id})
-       client.close()
-     });
-   }
+  
     
-    else
-    {
       coll.find({_name:url}).toArray(function(err,doc)
                                   {
        if(err) console.log(err);
@@ -57,15 +43,43 @@ app.get("/:urls", function (request, response) {
          response.json({"orignal url":url,"short url":"https://url-short12214.glitch.me/"+hash})
          client.close()
        }
+        else
        response.json({"orignal url":doc[0].name,"short url":"https://url-short12214.glitch.me/"+doc[0]._id})
        client.close()
      });
-    }
+    
     
   });
   
   
  
+});
+
+app.get('/check/:urls',function(request,response){
+  
+   var url=request.params.urls;
+  
+  mongodb.connect(mongourl,function(err,client)
+                  {
+    if(err) console.log(err);
+    var datab=client.db("fcc1");
+    var coll=datab.collection("urls");
+  
+     coll.find({_id:url}).toArray(function(err,doc)
+                                  {
+       if(err) console.log(err);
+       if(doc.length==0)
+       {
+         response.json({"message":"no entry in db"});
+         client.close()
+       }
+       else
+       response.json({"orignal url":doc[0].name,"short url":"https://url-short12214.glitch.me/"+doc[0]._id})
+       client.close()
+     });
+   
+  })
+    
 });
 
 // listen for requests :)

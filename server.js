@@ -17,18 +17,21 @@ app.get("/:urls", function (request, response) {
   var url=request.params.urls;
   mongodb.connect(mongourl,function(err,client)
                   {
-    var db=client.db("fcc1");
-    var coll=db.collection("urls");
+    
+    if(err) console.log(err);
+    var datab=client.db("fcc1");
+    var coll=datab.collection("urls");
    if(url.length==4)
    {
      coll.find({_id:url}).toArray(function(err,doc)
                                   {
+       if(err) console.log(err);
        if(doc.length==0)
        {
          response.json({"message":"no entry in db"});
          client.close()
        }
-       response.json({"orignal url":doc[0].name,"short url":
+       response.json({"orignal url":doc[0].name,"short url":"https://url-short12214.glitch.me/"+doc[0]._id})
        
      });
    }

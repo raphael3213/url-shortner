@@ -43,7 +43,18 @@ app.get("/:urls", function (request, response) {
        if(err) console.log(err);
        if(doc.length==0)
        {
-         coll.insert(
+         var hash;
+         
+          for (var i = 0; i < url.length; i++) {
+          var chr   = url.charCodeAt(i);
+          hash  = ((hash << 5) - hash) + chr;
+            hash |= 0; 
+          }
+         coll.insert({_id:hash,name:url},function(err,data)
+                      {
+                        if(err) console.log(err);
+                      })
+         response.json({"orignal url":url,"short url":"https://url-short12214.glitch.me/"+hash})
          client.close()
        }
        response.json({"orignal url":doc[0].name,"short url":"https://url-short12214.glitch.me/"+doc[0]._id})

@@ -20,8 +20,13 @@ app.get("/conv/(*)", function (request, response) {
     console.log("original: " + request.originalUrl);
    
   url=url.substr(6,url.length-1)
-   console.log("original: " + url);
-  if(url.substr(0,7)!=='https//'||url.substr(0,6)!==
+   console.log("original: " + url.substr(0,8));
+  if(url.substr(0,8)!='https://'&&url.substr(0,7)!='http://')
+  {
+    response.json({Error:"error url"});
+  }
+  else
+  {
   mongodb.connect(mongourl,function(err,client)
                   {
     
@@ -56,7 +61,7 @@ app.get("/conv/(*)", function (request, response) {
     
     
   });
-  
+  }
   
  
 });

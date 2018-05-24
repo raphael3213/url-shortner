@@ -13,9 +13,15 @@ app.use(express.static('public'));
 app.get("/", function (request, response) {
 response.sendFile(__dirname + '/views/index.html');})
 
-app.get("/conv/urls", function (request, response) {
-  //response.sendFile(__dirname + '/views/index.html');
-  var url=request.params.urls;
+app.get("/conv/(*)", function (request, response) {
+  
+  let url = request.originalUrl.replace(/^\/new\//, "");
+  
+    console.log("original: " + request.originalUrl);
+   
+  url=url.substr(6,url.length-1)
+   console.log("original: " + url);
+  //var url=request.params.urls;
   mongodb.connect(mongourl,function(err,client)
                   {
     

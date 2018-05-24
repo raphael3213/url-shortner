@@ -46,11 +46,11 @@ app.get("/conv/(*)", function (request, response) {
                       {
                         if(err) console.log(err);
                       })
-         response.json({"orignal url":url,"short url":"https://url-short12214.glitch.me/"+hash})
+         response.json({"orignal url":url,"short url":"https://url-short12214.glitch.me/check/"+hash})
          client.close()
        }
         else
-       response.json({"orignal url":doc[0].name,"short url":"https://url-short12214.glitch.me/"+doc[0]._id})
+       response.json({"orignal url":doc[0].name,"short url":"https://url-short12214.glitch.me/check/"+doc[0]._id})
        client.close()
      });
     
@@ -80,8 +80,9 @@ app.get('/check/:urls',function(request,response){
          client.close()
        }
        else
-       response.json({"orignal url":doc[0].name,"short url":"https://url-short12214.glitch.me/"+doc[0]._id})
-       client.close()
+       {//response.json({"orignal url":doc[0].name,"short url":"https://url-short12214.glitch.me/"+doc[0]._id})
+        response.redirect(doc[0].name);
+       client.close()}
      });
    
   })

@@ -13,7 +13,7 @@ app.use(express.static('public'));
 app.get("/", function (request, response) {
 response.sendFile(__dirname + '/views/index.html');})
 
-app.get("/conv/:urls", function (request, response) {
+app.get("/conv/urls", function (request, response) {
   //response.sendFile(__dirname + '/views/index.html');
   var url=request.params.urls;
   mongodb.connect(mongourl,function(err,client)
@@ -24,7 +24,7 @@ app.get("/conv/:urls", function (request, response) {
     var coll=datab.collection("urls");
   
     
-      coll.find({_name:url}).toArray(function(err,doc)
+      coll.find({name:url}).toArray(function(err,doc)
                                   {
        if(err) console.log(err);
        if(doc.length==0)
@@ -65,7 +65,7 @@ app.get('/check/:urls',function(request,response){
     var datab=client.db("fcc1");
     var coll=datab.collection("urls");
   
-     coll.find({_id:url}).toArray(function(err,doc)
+     coll.find({_id:parseInt(url)}).toArray(function(err,doc)
                                   {
        if(err) console.log(err);
        if(doc.length==0)

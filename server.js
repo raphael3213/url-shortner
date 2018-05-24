@@ -4,6 +4,7 @@
 // init project
 var express = require('express');
 var app = express();
+var mongodb=require('mongodb').MongoClient
 
 var arr=[];
 
@@ -11,8 +12,17 @@ var arr=[];
 app.use(express.static('public'));
 
 // http://expressjs.com/en/starter/basic-routing.html
-app.get("/", function (request, response) {
+app.get("/:urls", function (request, response) {
   response.sendFile(__dirname + '/views/index.html');
+  var url=request.params.urls;
+  if(url.length==4)
+  {
+    
+  }
+  else
+  {
+    
+  }
 });
 
 // listen for requests :)
